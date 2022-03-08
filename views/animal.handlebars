@@ -1,0 +1,24 @@
+<h2> All about {{animal.name}}</h2>
+
+<h3>Name: {{animal.name}}</h3>
+
+{{#if animal.dob}}
+    <h3>Date of Birth: {{animal.dob}}</h3>
+{{/if}}
+
+<img src={{animal.imageurl}} alt="photo of the animal">
+
+{{#if animal.hobbies}}
+    <h3>Hobbies:</h3>
+{{/if}}
+<ul>
+  {{#each animal.hobbies}}
+    <li>{{this}}</li>
+  {{/each}}
+</ul>
+
+<style>
+    #animalslist {
+      font-weight: bold;
+    }
+  </style>

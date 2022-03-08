@@ -1,0 +1,22 @@
+body {
+    background-color: aqua;
+}
+
+.link {
+    color: black;
+}
+.link:hover {
+    color: red;
+}
+p {
+    margin-top: 50px;
+}
+h3 {
+    text-decoration: underline;
+}
+.navbar .navbar-brand img {
+    width: 50%;
+}
+.navbar {
+    font-size: large;
+}

@@ -1,0 +1,15 @@
+<ul>
+  {{#each animallist}}
+    <a class="link" href= /animals/{{this.name}}>
+        <li>{{this.name}}</li>
+    <a/>
+  {{/each}}
+</ul>
+
+<a href="/animals/addnew">Add a new Animal to the shelter</a>
+
+<style>
+    #animalslist {
+      font-weight: bold;
+    }
+  </style>
