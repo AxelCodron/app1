@@ -1,5 +1,5 @@
 body {
-    background-color: aqua;
+    background: aqua;
 }
 
 .link {
@@ -15,7 +15,7 @@ h3 {
     text-decoration: underline;
 }
 .navbar .navbar-brand img {
-    width: 50%;
+    width: 80px;
 }
 .navbar {
     font-size: large;

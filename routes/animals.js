@@ -1,59 +1,89 @@
 const express = require('express');
 const router = express.Router();
-
-var data = {
-    "Bubble": {
-        "name": "Bubble",
-        "dob": "13/01/2020",
-        "imageurl": "/images/fish.png",
-        "hobbies": ["Swim", "Swim but better", "Swiiiim"]
-    },
-
-    "Rex": {
-        "name": "Rex",
-        "dob": "27/02/2013",
-        "imageurl": "/images/dog.png",
-        "hobbies": ["Ball", "Eat", "Run"]
-    },
-
-    "Pixel": {
-        "name": "Pixel",
-        "dob": "01/07/2016",
-        "imageurl": "/images/cat.png",
-        "hobbies": ["Hugs", "Naps", "Play time"]
-    }
-}
+const { readStaff } = require('../models/staff');
+const { createStaff } = require('../models/staff');
+const { deleteStaff } = require('../models/staff');
+const { updateStaff } = require('../models/staff');
 
 router.get('/addnew', (req, res) => {
     console.log("Data sent via post");
-    var fname = req.query.firstname;
-    var sname = req.query.surname;
-    console.log('Date entered ' + fname + ' ' + sname);
+    var name = req.query.name;
+    var species = req.query.species;
     res.render('animalsform')
 })
 
-router.post('/addnew', (req, res) => {
-    console.log("Data sent via post");
-    console.table(req.body);
-    res.redirect(303, 'animaladded',)
+/* router.post('/addnew', async (req, res) => {
+    await createStaff(req.body);
+    req.session.staffdata = { name: req.body.name };
+    res.redirect(303, 'animaladded')
+}) */
+
+router.post('/addnew', async (req, res) => {
+    await createStaff(req.body);
+    console.log(req.body)
+    req.session.flash =
+        { type: 'success', intro: 'Data Saved:', message: "Data for <strong>" + req.body.name + "</strong> has been added" }
+    res.redirect(303, '/animals')
 })
+
 
 router.get('/animaladded', (req, res) => {
-    res.render('animaladded')
-})
-
-router.get('/:name', (req, res) => {
-    var name = req.params.name;
-    if (data[name]) {
-        res.render('animal', { animal: data[name] });
+    if (req.session.staffdata) {
+        var newName = req.session.staffdata.name;
     }
     else {
-        res.status(404);
+        var newName = "";
+    }
+    res.render('animaladded', { newName: newName })
+})
+
+router.get('/:name', async (req, res) => {
+    var name = req.params.name;
+
+    const animal = await readStaff({ 'name': name })
+
+    if (!animal) {
         res.render('404');
+    }
+    else {
+        res.render('animal', { animal: animal });
     }
 })
 
-router.get('/', (req, res) =>
-    res.render('listing', { animallist: data }))
+router.get('/:name/delete', async (req, res) => {
+    var name = req.params.name;
+
+    await deleteStaff(name);
+
+    res.redirect(303, '/animals');
+
+});
+
+router.get('/:name/edit', async (req, res) => {
+
+    var name = req.params.name;
+
+    const animal = await readStaff({ 'name': name })
+
+    if (!animal) {
+        res.render('404');
+    }
+    else {
+        res.render('animaleditform', { animal: animal });
+    }
+})
+
+router.post('/:name/edit', async (req, res) => {
+
+    await updateStaff(req.body);
+
+    res.redirect(303, '/animals')
+
+})
+
+router.get('/', async (req, res) => {
+    const staff = await readStaff();
+    res.render('listing', { animallist: staff })
+})
 
 module.exports = router;

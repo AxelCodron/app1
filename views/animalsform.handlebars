@@ -1,18 +1,35 @@
-<form action="/animals/addnew" method="post">
-    <div class="form-group">
-        <label for='firstname'>Name</label>
-        <input type=text id='firstname' name='firstname' class='form-control'>
+<form action="/animals/addnew" method="post" style="width: 80%; margin: 0 5px;">
+    <div class="row">
+        <div class="col">
+            <label for='name'>Name</label>
+            <input type=text id='name' name='name' class='form-control'>
+        </div>
+        <div class="col">
+            <label for='species'>Species</label>
+            <select class="form-control" id="species" name="species">
+                <option>Cat</option>
+                <option>Dog</option>
+                <option>Fish</option>
+                <option>Bird</option>
+                <option>Hamster</option>
+            </select>
+        </div>
     </div>
-    <div class="form-group">
-        <label for='surname'>Species</label>
-        <input type=text id='surname' name='surname' class='form-control'>
+    <div class="row">
+        <div class="col">
+            <label for='dob'>Date of Birth</label>
+            <input type=text id='dob' name='dob' class='form-control'>
+        </div>
+        <div class="col">
+            <label for='hobbies'>Hobbies</label>
+            <input type=text id='hobbies' name='hobbies' class='form-control'>
+        </div>
     </div>
-    <button type=submit class="btn btn-primary">Add Animal</button>
-    </div>
+    <button type=submit class="btn btn-primary" style="margin-top: 20px;">Add Animal</button>
 </form>
 
 <style>
     #animalslist {
-      font-weight: bold;
+        font-weight: bold;
     }
-  </style>
+</style>
